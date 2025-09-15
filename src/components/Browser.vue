@@ -27,7 +27,7 @@
     <div id="case-container">
       <div v-if="filteredCases.length > 0">
         <div v-for="(caseItem, index) in filteredCases" :key="index">
-          <div v-if="caseItem.IsMarkScan" class="case-item row">
+          <div class="case-item row">
             <div class="case-info">
               <h4>{{ caseItem.Title }}</h4>
               <p>
@@ -47,7 +47,6 @@
                 <div class="tag-value">{{ caseItem[category] }}</div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -66,15 +65,16 @@ export default {
     return {
       categoryDisplayInfo: {
         Display: ["Display", "#F9468C"],
-        Locomotion: ["Locomotion", "#F80F19"],
-        BodyMovement: ["Body Movement", "#FF8000"],
-        MarkType: ["Mark Types", "#F3D027"],
-        EncodingChannel: ["Encoding Channel", "#23BF0C"],
-        MovingSubjects: ["Moving Subjects", "#5A922D"],
-        ProgressReview: ["Progress Review", "#B7DE55"],
-        LocusofControl: ["Locus of Control", "#8AD2F1"],
-        SkippingTool: ["Skipping Tool", "#32BFF2"],
-        Anchor: ["Anchor", "#00BEB9"]
+        Spatial_Channel: ["Locomotion", "#F80F19"],
+        Visceral_Channel: ["Visceral Channel", "#FF8000"],
+        Viewer_Locomotion_Mode: ["Viewer Locomotion Mode", "#F3D027"],
+        Mark_Moving_Mode: ["Mark Moving Mode", "#23BF0C"],
+        Body_Movement: ["Body Movement", "#5A922D"],
+        Progress_Review: ["Progress Review", "#B7DE55"],
+        Anchor_Representation: ["Anchor (Representation)", "#8AD2F1"],
+        Anchor_Space: ["Anchor (Space)", "#32BFF2"],
+        Narrative: ["Narrative", "#00BEB9"],
+        General_Startegies: ["General_Startegies", "#00BEB9"]
       },
       cases: [], // Holds the processed data
       filters: reactive({}), // Use reactive for managing filters
@@ -85,16 +85,16 @@ export default {
     uniqueValues() {
       const columns = [
         "Display",
-        "Locomotion",
-        "MarkType",
-        "EncodingChannel",
-        "BodyMovement",
-        "Locomotion",
-        "MovingSubjects",
-        "ProgressReview",
-        "LocusofControl",
-        "SkippingTool",
-        "Anchor"
+        "Spatial_Channel",
+        "Visceral_Channel",
+        "Viewer_Locomotion_Mode",
+        "Mark_Moving_Mode",
+        "Body_Movement",
+        "Progress_Review",
+        "Anchor_Representation",
+        "Anchor_Space",
+        "Narrative",
+        "General_Startegies"
       ];
       const uniqueValues = {};
       columns.forEach((column) => {
@@ -153,7 +153,7 @@ export default {
     // Function to load and parse the CSV file
     async loadCsv() {
       try {
-        const response = await fetch("/data.csv"); // Ensure your CSV file is in the public folder
+        const response = await fetch("/Case_Coding_Final.csv"); // Ensure your CSV file is in the public folder
         const text = await response.text();
 
         Papa.parse(text, {
