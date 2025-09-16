@@ -28,13 +28,14 @@
       <div v-if="filteredCases.length > 0">
         <div v-for="(caseItem, index) in filteredCases" :key="index">
           <div class="case-item row">
-            <div class="case-info">
-              <h4>{{ caseItem.Title }}</h4>
+            <div class="case-info" :id="caseItem.ID">
+              <h4>Case {{ caseItem.ID }}: {{ caseItem.Title }}</h4>
               <p>
-                <a v-if="caseItem.CaseURL" target="_blank" :href="caseItem.CaseURL">Case URL</a>
+                <a v-if="caseItem.Link" target="_blank" :href="caseItem.Link">Case URL</a>
               </p>
-              <p v-if="caseItem.ShortDes">
-                {{ caseItem.ShortDes }}
+
+              <p v-if="caseItem.Brief_Description">
+                {{ caseItem.Brief_Description }}
               </p>
               <img v-if="caseItem.Image" style="max-width: 100%; max-height: 500px;"
                 :src="`images/${caseItem.Image}.png`">
@@ -42,7 +43,7 @@
             <!-- tags -->
             <div class="case-tags">
               <div v-for="(categoryInfo, category) in categoryDisplayInfo" :key="category" class="tag"
-                :style="{ borderLeft: `5px solid ${categoryInfo[1]}` }">
+                :style="{ borderTop: `5px solid ${categoryInfo[1]}` }">
                 <div class="tag-name">{{ categoryInfo[0] }}</div>
                 <div class="tag-value">{{ caseItem[category] }}</div>
               </div>
