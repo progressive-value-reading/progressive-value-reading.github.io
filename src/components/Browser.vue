@@ -65,17 +65,17 @@ export default {
   data() {
     return {
       categoryDisplayInfo: {
-        Display: ["Display", "#F9468C"],
-        Spatial_Channel: ["Locomotion", "#F80F19"],
-        Visceral_Channel: ["Visceral Channel", "#FF8000"],
-        Viewer_Locomotion_Mode: ["Viewer Locomotion Mode", "#F3D027"],
-        Mark_Moving_Mode: ["Mark Moving Mode", "#23BF0C"],
-        Body_Movement: ["Body Movement", "#5A922D"],
-        Progress_Review: ["Progress Review", "#B7DE55"],
-        Anchor_Representation: ["Anchor (Representation)", "#8AD2F1"],
-        Anchor_Space: ["Anchor (Space)", "#32BFF2"],
-        Narrative: ["Narrative", "#00BEB9"],
-        General_Startegies: ["General_Startegies", "#00BEB9"]
+        Display: ["Display", "#FFD0A0"],
+        Spatial_Channel: ["Locomotion", "#FFD0A0"],
+        Visceral_Channel: ["Visceral Channel", "#FFD0A0"],
+        Viewer_Locomotion_Mode: ["Viewer Locomotion Mode", "#60ABD1"],
+        Mark_Moving_Mode: ["Mark Moving Mode", "#60ABD1"],
+        Body_Movement: ["Body Movement", "#60ABD1"],
+        Progress_Review: ["Progress Review", "#DE8DAF"],
+        Anchor_Representation: ["Anchor (Representation)", "#DE8DAF"],
+        Anchor_Space: ["Anchor (Space)", "#DE8DAF"],
+        Narrative: ["Narrative", "#DE8DAF"],
+        General_Startegies: ["General Startegies", "#00BEB9"]
       },
       cases: [], // Holds the processed data
       filters: reactive({}), // Use reactive for managing filters
@@ -190,19 +190,21 @@ export default {
   left: 0;
   z-index: 1030;
   width: 100%;
-  height: 80px;
+  height: 70px;
   background-color: white; /* Make background transparent */
   padding: 20px;
   color: #333;
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+  background-color:#f5f5f5
 }
 
 /* position selection menu */
 #filterMenu {
   position: fixed;
-  top: 80px;
+  top: 75px;
   left: 0;
   z-index: 1030;
-  width: 30%;
+  width: 25%;
   height: 100%;
   padding-left: 20px;
   padding-top: 20px;
@@ -214,7 +216,7 @@ export default {
 #browser {
   font-family: Arial, sans-serif;
   margin-top: 80px;
-  margin-left: 30%;
+  margin-left: 25%;
   margin-right: 20px;
   padding-top: 20px;
 }
