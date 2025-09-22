@@ -2,7 +2,7 @@
   <div id="browser">
     <div id="webHead">
       <h2>
-        X-Scanning Corpus
+        Mark Scanning Corpus
       </h2>
     </div>
     <div id="filterMenu">
