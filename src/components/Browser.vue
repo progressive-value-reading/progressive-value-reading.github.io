@@ -31,7 +31,7 @@
             <div class="case-info" :id="caseItem.ID">
               <h4>Case {{ caseItem.ID }}: {{ caseItem.Title }}</h4>
               <p>
-                <a v-if="caseItem.Link" target="_blank" :href="caseItem.Link">Case URL</a>
+                (<a v-if="caseItem.Link" target="_blank" :href="caseItem.Link"> Source link</a>)
               </p>
 
               <p v-if="caseItem.Brief_Description">
