@@ -31,7 +31,7 @@
             <div class="case-info" :id="caseItem.ID">
               <h4>Case {{ caseItem.ID }}: {{ caseItem.Title }}</h4>
               <p>
-                (<a v-if="caseItem.Link" target="_blank" :href="caseItem.Link"> Source link</a>)
+                <a v-if="caseItem.Link" target="_blank" :href="caseItem.Link">Link to source</a>
               </p>
 
               <p v-if="caseItem.Brief_Description">
@@ -201,10 +201,10 @@ export default {
 /* position selection menu */
 #filterMenu {
   position: fixed;
-  top: 75px;
+  top: 70px;
   left: 0;
   z-index: 1030;
-  width: 25%;
+  width: 350px;
   height: 100%;
   padding-left: 20px;
   padding-top: 20px;
@@ -215,9 +215,8 @@ export default {
 /* position case containers */
 #browser {
   font-family: Arial, sans-serif;
-  margin-top: 80px;
-  margin-left: 25%;
-  margin-right: 20px;
+  margin-top: 70px;
+  margin-left: 350px;
   padding-top: 20px;
 }
 
@@ -245,6 +244,7 @@ button.selected {
 }
 
 .case-item {
+  width: 1000px;
   padding: 10px;
   background: #f9f9f9;
   border: 1px solid #ddd;
