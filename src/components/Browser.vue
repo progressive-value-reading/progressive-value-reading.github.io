@@ -66,7 +66,7 @@ export default {
     return {
       categoryDisplayInfo: {
         Display: ["Display", "#FFD0A0"],
-        Spatial_Channel: ["Locomotion", "#FFD0A0"],
+        Spatial_Channel: ["Spatial Channel", "#FFD0A0"],
         Visceral_Channel: ["Visceral Channel", "#FFD0A0"],
         Viewer_Locomotion_Mode: ["Viewer Locomotion Mode", "#60ABD1"],
         Mark_Moving_Mode: ["Mark Moving Mode", "#60ABD1"],
