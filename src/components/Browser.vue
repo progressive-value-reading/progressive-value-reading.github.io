@@ -200,11 +200,11 @@ export default {
 /* position selection menu */
 #filterMenu {
   position: fixed;
-  top: 70px;
+  top: 75px;
   left: 0;
   z-index: 1030;
   width: 350px;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 75px);
   padding-left: 20px;
   padding-top: 20px;
   overflow-y: scroll;
