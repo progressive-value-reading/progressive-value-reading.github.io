@@ -183,16 +183,15 @@ export default {
 
 <style scoped>
 /* position website head */
-
 #webHead {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
+  padding: 20px;
   z-index: 1030;
   width: 100%;
   height: 70px;
   background-color: white; /* Make background transparent */
-  padding: 20px;
   color: #333;
   box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
   background-color:#f5f5f5
@@ -205,20 +204,23 @@ export default {
   left: 0;
   z-index: 1030;
   width: 350px;
-  height: 100%;
+  height: calc(100vh - 70px);
   padding-left: 20px;
   padding-top: 20px;
-  padding-bottom: 100px;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 /* position case containers */
 #browser {
   font-family: Arial, sans-serif;
-  margin-top: 70px;
-  margin-left: 350px;
-  padding-top: 20px;
 }
+
+#case-container{
+  margin-left: 350px;
+  padding-top: 30px;
+  text-align: center;
+}
+
 
 /* styles of selection menu and buttons */
 .buttons {
@@ -244,7 +246,8 @@ button.selected {
 }
 
 .case-item {
-  width: 1000px;
+  width: 100%;
+  max-width: 1100px;
   padding: 10px;
   background: #f9f9f9;
   border: 1px solid #ddd;
@@ -252,6 +255,8 @@ button.selected {
   border-radius: 4px;
   font-family: monospace;
   white-space: pre-wrap;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Transition effects */
@@ -321,5 +326,10 @@ button.selected {
 .tag {
   border-left: 5px solid transparent;
   /* Initially transparent, color applied dynamically */
+}
+
+/* Scroll bar of filter menu*/
+#filterMenu::-webkit-scrollbar-track {
+    background: transparent;
 }
 </style>
