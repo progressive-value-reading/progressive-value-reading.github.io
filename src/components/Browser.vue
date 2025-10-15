@@ -1,34 +1,52 @@
 <template>
   <div id="browser">
+    <!-- (4) Placeholder anchor so native hash jump isn't lost on first load -->
+    <div
+      v-if="initialHashId"
+      :id="initialHashId"
+      class="anchor-placeholder"
+      aria-hidden="true"
+    ></div>
+
     <div id="webHead">
-      <h2>
-        Mark Scanning Corpus
-      </h2>
+      <h2>Mark Scanning Corpus</h2>
     </div>
+
     <div id="filterMenu">
       <p>Case Filters</p>
       <transition name="button-fade">
         <button @click="clearAllFilter" class="clear-filter-button">Clear All Filters</button>
       </transition>
-      <div v-for="(values, category) in uniqueValues" :key="category" class="buttons"
-        :style="{ borderLeft: `5px solid ${categoryDisplayInfo[category][1]}` }">
+
+      <div
+        v-for="(values, category) in uniqueValues"
+        :key="category"
+        class="buttons"
+        :style="{ borderLeft: `5px solid ${categoryDisplayInfo[category][1]}` }"
+      >
         <p class="select-title">
           {{ categoryDisplayInfo[category][0] }}
           <transition name="button-fade">
             <button @click="clearFilter(category)" class="clear-filter-button">Clear filter</button>
           </transition>
         </p>
-        <button v-for="value in values" :key="value" :class="{ selected: isSelected(category, value) }"
-          @click="toggleFilter(category, value)">
+        <button
+          v-for="value in values"
+          :key="value"
+          :class="{ selected: isSelected(category, value) }"
+          @click="toggleFilter(category, value)"
+        >
           {{ value }}
         </button>
       </div>
     </div>
+
     <div id="case-container">
       <div v-if="filteredCases.length > 0">
         <div v-for="(caseItem, index) in filteredCases" :key="index">
           <div class="case-item row">
-            <div class="case-info" :id="caseItem.ID">
+            <!-- ensure the real anchors match the IDs -->
+            <div class="case-info anchor-target" :id="String(caseItem.ID)">
               <h4>Case {{ caseItem.ID }}: {{ caseItem.Title }}</h4>
               <p>
                 <a v-if="caseItem.Link" target="_blank" :href="caseItem.Link">Link to source</a>
@@ -37,13 +55,21 @@
               <p v-if="caseItem.Brief_Description">
                 {{ caseItem.Brief_Description }}
               </p>
-              <img v-if="caseItem.Image" style="max-width: 100%; max-height: 500px;"
-                :src="`images/${caseItem.Image}.png`">
+              <img
+                v-if="caseItem.Image"
+                style="max-width: 100%; max-height: 500px;"
+                :src="`images/${caseItem.Image}.png`"
+              >
             </div>
+
             <!-- tags -->
             <div class="case-tags">
-              <div v-for="(categoryInfo, category) in categoryDisplayInfo" :key="category" class="tag"
-                :style="{ borderTop: `5px solid ${categoryInfo[1]}` }">
+              <div
+                v-for="(categoryInfo, category) in categoryDisplayInfo"
+                :key="category"
+                class="tag"
+                :style="{ borderTop: `5px solid ${categoryInfo[1]}` }"
+              >
                 <div class="tag-name">{{ categoryInfo[0] }}</div>
                 <div class="tag-value">{{ caseItem[category] }}</div>
               </div>
@@ -57,8 +83,8 @@
 </template>
 
 <script>
-import { reactive, computed } from "vue";
-import Papa from "papaparse";  // Import PapaParse
+import { reactive, computed, nextTick } from "vue";
+import Papa from "papaparse";
 
 export default {
   name: "Browser",
@@ -77,12 +103,13 @@ export default {
         Narrative: ["Narrative", "#DE8DAF"],
         General_Startegies: ["General Startegies", "#00BEB9"]
       },
-      cases: [], // Holds the processed data
-      filters: reactive({}), // Use reactive for managing filters
+      cases: [],
+      filters: reactive({}),
+      // (4) capture the initial hash (so the placeholder can exist at first paint)
+      initialHashId: null,
     };
   },
   computed: {
-    // Extract unique values for each column to create filter buttons
     uniqueValues() {
       const columns = [
         "Display",
@@ -102,16 +129,15 @@ export default {
         const values = this.cases.flatMap((caseItem) =>
           caseItem[column] ? caseItem[column].split(",").map((v) => v.trim()) : []
         );
-        uniqueValues[column] = [...new Set(values)]; // Ensure uniqueness
+        uniqueValues[column] = [...new Set(values)];
       });
       return uniqueValues;
     },
-    // Compute filtered cases based on selected filters
     filteredCases() {
       return this.cases.filter((caseItem) => {
         return Object.keys(this.filters).every((column) => {
           const selectedValues = this.filters[column] || [];
-          if (selectedValues.length === 0) return true; // if this.fitlers[column] is empty, no case would be fiterred based on selections in this column
+          if (selectedValues.length === 0) return true;
           const caseValues = caseItem[column]
             ? caseItem[column].split(",").map((v) => v.trim())
             : [];
@@ -121,49 +147,61 @@ export default {
     },
   },
   methods: {
-    // Check if a value is selected for a column
     isSelected(column, value) {
       return this.filters[column]?.includes(value) || false;
     },
-    // Toggle a filter value
     toggleFilter(column, value) {
-      if (!this.filters[column]) {
-        this.filters[column] = []; // Initialize the column array if undefined
-      }
+      if (!this.filters[column]) this.filters[column] = [];
       const index = this.filters[column].indexOf(value);
-      if (index > -1) {
-        this.filters[column].splice(index, 1); // Remove the value
-      } else {
-        this.filters[column].push(value); // Add the value
-      }
+      if (index > -1) this.filters[column].splice(index, 1);
+      else this.filters[column].push(value);
     },
-    // Clear filters
     clearFilter(column) {
-      if (!this.filters[column]) {
-        this.filters[column] = []; // Initialize the column array if undefined
-      }
+      if (!this.filters[column]) this.filters[column] = [];
       this.filters[column] = [];
-      //this.filters[column] = [...this.uniqueValues[column]];
     },
-    // Clear all filters
     clearAllFilter() {
-      for (let column in this.filters) {
-        this.filters[column] = []; // Empty the array for each column
+      for (let column in this.filters) this.filters[column] = [];
+    },
+
+    // --- Helper: get current hash id, handling %23 and decoding ---
+    getHashId() {
+      if (!window || !window.location || !location.hash) return "";
+      let hash = location.hash;
+      if (hash.startsWith("%23")) {
+        hash = "#" + decodeURIComponent(hash).replace(/^#/, "");
+      }
+      return decodeURIComponent(hash.slice(1));
+    },
+
+    // --- (1) Robust manual scroll AFTER render (with retries) ---
+    scrollToHash(retries = 20) {
+      const id = this.getHashId();
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (el) {
+        // Use scroll-margin-top via CSS to avoid fixed header overlap
+        el.scrollIntoView();
+        return;
+      }
+      if (retries > 0) {
+        setTimeout(() => this.scrollToHash(retries - 1), 100);
       }
     },
-    // Function to load and parse the CSV file
+
     async loadCsv() {
       try {
-        const response = await fetch("/Case_Coding_Final.csv"); // Ensure your CSV file is in the public folder
+        const response = await fetch("/Case_Coding_Final.csv");
         const text = await response.text();
 
         Papa.parse(text, {
-          header: true, // The first row contains headers
-          skipEmptyLines: true, // Skip empty lines
-          complete: (result) => {
-            // Now we have the parsed data in `result.data`
+          header: true,
+          skipEmptyLines: true,
+          complete: async (result) => {
             this.cases = result.data;
-            console.log("Loaded and parsed CSV data:", this.cases);
+            // Wait for DOM to reflect new cases, then correct the scroll
+            await nextTick();
+            this.scrollToHash();
           },
           error: (error) => {
             console.error("Error parsing CSV:", error);
@@ -174,12 +212,47 @@ export default {
       }
     },
   },
+
+  created() {
+    // (4) set up the placeholder anchor id as early as possible
+    const id = this.getHashId();
+    this.initialHashId = id || null;
+  },
+
+  async mounted() {
+    // Try once on mount (helps when assets are cached)
+    this.scrollToHash();
+    // Keep reacting to in-page hash changes
+    window.addEventListener("hashchange", this.scrollToHash);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener("hashchange", this.scrollToHash);
+  },
+
   async created() {
     // Load and process the CSV file when the component is created
     await this.loadCsv();
   },
 };
 </script>
+
+<style>
+/* Smoothen UX for in-page jumps (optional; remove if you want instant jumps) */
+html { scroll-behavior: smooth; }
+
+/* Keep anchors from hiding under a fixed header (adjust 80px as needed) */
+.anchor-target { scroll-margin-top: 80px; }
+
+/* (4) The tiny placeholder landed by the browser's first, native hash jump */
+.anchor-placeholder {
+  position: absolute;
+  top: 0; left: 0;
+  width: 1px; height: 1px;
+  overflow: hidden;
+}
+</style>
+
 
 <style scoped>
 /* position website head */
