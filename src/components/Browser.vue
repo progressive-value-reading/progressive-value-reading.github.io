@@ -9,7 +9,7 @@
     ></div>
 
     <div id="webHead">
-      <h2>Mark Scanning Corpus</h2>
+      <h2>Progressive Value Reading Corpus</h2>
     </div>
 
     <div id="filterMenu">
@@ -95,7 +95,7 @@ export default {
         Spatial_Channel: ["Spatial Channel", "#FFD0A0"],
         Visceral_Channel: ["Visceral Channel", "#FFD0A0"],
         Viewer_Locomotion_Mode: ["Viewer Locomotion Mode", "#60ABD1"],
-        Mark_Moving_Mode: ["Mark Moving Mode", "#60ABD1"],
+        Object_Moving_Mode: ["Object Moving Mode", "#60ABD1"],
         Body_Movement: ["Body Movement", "#60ABD1"],
         Progress_Review: ["Progress Review", "#DE8DAF"],
         Anchor_Representation: ["Anchor (Representation)", "#DE8DAF"],
@@ -116,7 +116,7 @@ export default {
         "Spatial_Channel",
         "Visceral_Channel",
         "Viewer_Locomotion_Mode",
-        "Mark_Moving_Mode",
+        "Object_Moving_Mode",
         "Body_Movement",
         "Progress_Review",
         "Anchor_Representation",
